@@ -1,12 +1,15 @@
 import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { PipelineStage, type Stage, type StageStatus } from "@/components/PipelineStage";
 import { LogsPanel, type LogLine } from "@/components/LogsPanel";
 import { ArchitectureMap } from "@/components/ArchitectureMap";
+import { DeploymentHistory } from "@/components/DeploymentHistory";
+import { seedHistory } from "@/data/deployHistory";
 import { Button } from "@/components/ui/button";
 import {
   Activity, GitCommit, RotateCcw, Play, Bell, Server, Cpu, MemoryStick,
-  TrendingUp, CheckCircle2, AlertTriangle
+  TrendingUp, CheckCircle2, AlertTriangle, Wrench,
 } from "lucide-react";
 
 const initialStages: Stage[] = [
@@ -34,6 +37,7 @@ const Index = () => {
   const [env, setEnv] = useState<"dev" | "prod">("prod");
   const [stages, setStages] = useState<Stage[]>(initialStages);
   const [logs, setLogs] = useState<LogLine[]>(seedLogs);
+  const [history] = useState(seedHistory);
   const [running, setRunning] = useState(false);
   const [metrics, setMetrics] = useState({ cpu: 34, mem: 58, rps: 142 });
 
@@ -148,6 +152,11 @@ const Index = () => {
               <span className="h-2 w-2 rounded-full bg-primary animate-pulse-dot" />
               healthy
             </span>
+            <Link to="/builder">
+              <Button variant="outline" size="sm" className="gap-1.5">
+                <Wrench className="h-3.5 w-3.5" /> Builder
+              </Button>
+            </Link>
             <Button variant="outline" size="sm" onClick={triggerRollback} className="gap-1.5">
               <RotateCcw className="h-3.5 w-3.5" /> Rollback
             </Button>
@@ -283,6 +292,16 @@ const Index = () => {
               </div>
             </div>
           </div>
+        </section>
+
+        {/* Deployment History */}
+        <section>
+          <DeploymentHistory history={history} onReplayLogs={(replayLogs) => {
+            setLogs([]);
+            replayLogs.forEach((log, i) => {
+              setTimeout(() => pushLog(log), i * 200);
+            });
+          }} />
         </section>
 
         <footer className="pt-4 pb-2 text-center font-mono text-[11px] text-muted-foreground">
