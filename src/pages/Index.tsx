@@ -1,12 +1,15 @@
 import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { PipelineStage, type Stage, type StageStatus } from "@/components/PipelineStage";
 import { LogsPanel, type LogLine } from "@/components/LogsPanel";
 import { ArchitectureMap } from "@/components/ArchitectureMap";
+import { DeploymentHistory } from "@/components/DeploymentHistory";
+import { seedHistory } from "@/data/deployHistory";
 import { Button } from "@/components/ui/button";
 import {
   Activity, GitCommit, RotateCcw, Play, Bell, Server, Cpu, MemoryStick,
-  TrendingUp, CheckCircle2, AlertTriangle
+  TrendingUp, CheckCircle2, AlertTriangle, Wrench,
 } from "lucide-react";
 
 const initialStages: Stage[] = [
