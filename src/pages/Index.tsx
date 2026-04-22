@@ -294,6 +294,16 @@ const Index = () => {
           </div>
         </section>
 
+        {/* Deployment History */}
+        <section>
+          <DeploymentHistory history={history} onReplayLogs={(replayLogs) => {
+            setLogs([]);
+            replayLogs.forEach((log, i) => {
+              setTimeout(() => pushLog(log), i * 200);
+            });
+          }} />
+        </section>
+
         <footer className="pt-4 pb-2 text-center font-mono text-[11px] text-muted-foreground">
           DeployOps · CodePipeline → CodeBuild → CodeDeploy · auto-rollback armed
         </footer>
