@@ -37,6 +37,7 @@ const Index = () => {
   const [env, setEnv] = useState<"dev" | "prod">("prod");
   const [stages, setStages] = useState<Stage[]>(initialStages);
   const [logs, setLogs] = useState<LogLine[]>(seedLogs);
+  const [history] = useState(seedHistory);
   const [running, setRunning] = useState(false);
   const [metrics, setMetrics] = useState({ cpu: 34, mem: 58, rps: 142 });
 
@@ -151,6 +152,11 @@ const Index = () => {
               <span className="h-2 w-2 rounded-full bg-primary animate-pulse-dot" />
               healthy
             </span>
+            <Link to="/builder">
+              <Button variant="outline" size="sm" className="gap-1.5">
+                <Wrench className="h-3.5 w-3.5" /> Builder
+              </Button>
+            </Link>
             <Button variant="outline" size="sm" onClick={triggerRollback} className="gap-1.5">
               <RotateCcw className="h-3.5 w-3.5" /> Rollback
             </Button>
